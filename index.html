@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Random Word</title>
+<title>Unicode Cycler</title>
 <style>
 body {
     margin: 0;
@@ -12,37 +12,34 @@ body {
     align-items: center;
     background: black;
     color: white;
-    font-family: Arial, sans-serif;
-}
-
-#word {
-    font-size: 4rem;
-    text-align: center;
+    font-size: 12rem;
+    font-family: "Segoe UI Symbol", "Noto Sans Symbols", sans-serif;
+    overflow: hidden;
 }
 </style>
 </head>
 <body>
 
-<div id="word">Loading...</div>
+<div id="char">A</div>
 
 <script>
-const letters = "abcdefghijklmnopqrstuvwxyz";
-const wordElement = document.getElementById("word");
+const charEl = document.getElementById("char");
+let codePoint = 0;
 
-function randomWord() {
-    const length = Math.floor(Math.random() * 8) + 3;
-    let word = "";
+function nextChar() {
+    try {
+        charEl.textContent = String.fromCodePoint(codePoint);
+    } catch {}
 
-    for (let i = 0; i < length; i++) {
-        word += letters[Math.floor(Math.random() * letters.length)];
+    codePoint++;
+
+    // Unicode range: U+0000 to U+10FFFF
+    if (codePoint > 0x10FFFF) {
+        codePoint = 0;
     }
-
-    return word;
 }
 
-setInterval(() => {
-    wordElement.textContent = randomWord();
-}, 100); // 0.1 second
+setInterval(nextChar, 100); // change every 0.1 second
 </script>
 
 </body>
